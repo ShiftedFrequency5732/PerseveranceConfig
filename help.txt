@@ -1,0 +1,422 @@
+nvim <file_name>   - Open a file to edit in nvim from the command line.
+vim  <file_name>   - Open a file to edit in vim from the command line.
+vi   <file_name>   - Open a file to edit in vi from the command line.
+
+
+
+Moving The Cursor:
+    h  - Left
+    j  - Down
+    k  - Up
+    l  - Right
+
+    A trick to remember: 
+    h  - Is on the left, and thus it moves the cursor to the left.
+    l  - Is on the right, and thus it moves the cursor to the right.
+    j  - Looks like the down arrow, so it moves the cursor down.
+    k  - Is what is left, so it must move the cursor up.
+
+    gj  - Move one line down, on wrapped line, if wrap is turned on, otherwise it works as if you didn't use g.
+    gk  - Move one line up, on wrapped line, if wrap is turned on, otherwise it works as if you didn't use g.
+
+    Use these with the relative numbers, with the fact that you can write a number before any operation.
+    That way you will be able to instantly move anywhere on the screen.
+
+
+
+Motion Keys:
+    w   - Go to the beginning of the next word, at its first character.
+    b   - Go to the beginning of the previous word, at its first character.
+    e   - Go to the end of the next / current word, at its last character.
+    ge  - Go to the end of the previous word, at its last character.
+    Operations: W, B, E, gE do the same thing as the previous operations respectively, excpet they treat the punctuation as part of the word.
+
+    $  - Go to end of the line, at the last character.
+    ^  - Go to start of the line, at the first character. Space at the start of the line is ignored, as if it was never there.
+    0  - Go to the start of the line, space is treated as part of the line.
+    Operations: g$, g^, g0 do the same thing as the previous operations respectively, except they work on the wrapped lines as well.
+
+    %  - Puts your cursor at the first pair of parentheses (), [], {}, and it allows you to swap cursor position at those parentheses.
+
+    {  - Skip a block of code up.
+    }  - Skip a block of code down.
+
+    ctrl + u  - Move cursor up by page.
+    ctrl + d  - Move cursor down by page.
+
+    i  - Can be used as a "meta-motion" key, when it is used with operators such as 'd', 'c', 'y' and others, more on them later. It stands for inner.
+    One could call it meta-motion key, because motion key still must be used with it, or bracket, a quote, based on which the operation will be executed.
+
+
+
+Cursor Location:
+    ctrl + g  - Tells you your current location of your cursor in the current text file, and path of the current file, and number of lines it has.
+
+    gg                - Moves you to the top of the file.
+    G                 - Moves you to the bottom of the file. Typing a number before it, will put you at that specific line.
+    :<line_number>    - Will put you at the specific line, just like <number>G.
+    
+    m <char>  - Remember the current position of the cursor. This is known as a mark.
+    ` <char>  - Put the cursor at the memorized / marked line.
+    `.        - Put your cursor at the last change.
+
+    zz  - Set the current line to be positioned at the middle of the screen.
+    zt  - Set the current line to be positioned at the top of the screen.
+    zb  - Set the current line to be positioned at the bottom of the screen.
+
+
+
+Inserting Text:
+    i  - Puts you in insert mode, where you can type text. To the left of the current cursor position.
+    I  - Go to insert mode, at the start of the line, like with ^.
+    
+    a  - Puts you in insert mode, to the right of the current cursor position.
+    A  - Puts you in insert mode at end of the current line, like with $. Append basically.
+    
+    o  - Open a new line bellow the cursor, puts you in insert mode.
+    O  - Open a new line above the cursor, puts you in insert mode.
+
+
+
+Deleting And Changing Text:
+    Anything that has been deleted/changed will be put into vim's local clipboard register, separated from the system clipboard.
+    Although, you can access the system's clipboard, more on that later.
+    
+    x  - Delete character at the cursor's position.
+    s  - Delete character at the cursor's position, and enter the insert mode.
+
+    r  - Replace letter at the current cursor position, with the one you type after the r.
+    R  - Enter replace mode, it replaces characters of the text as you type.
+
+    d <motion_key> - Delete text based on the motion key.
+    dd             - Delete the whole line of text.
+    D              - Delete the rest of the line, to the right of the cursor.
+
+    c <motion_key> - Change text based on the motion key.
+    cc             - Change the whole line of text.
+    C              - Change the rest of the line, to the right of the cursor.
+    Change implies that you will delete the text, and then enter the insert mode.
+
+    J   - Remove '\n\r' characters, that you made with the enter key to the right of the current line, and all the spaces until the text of the following line.
+    After that it will insert one space before the first character of the next line. It basically glues two lines together.
+    gJ  - Same as J, but without deleting spaces in front of the next line.
+
+    gqq  - Turn a long line that wraps into multiple lines of the length 80.
+
+
+
+Random General Things:
+    Typing a number before any operation, will do that operation that many number of times.
+    VI based editors tend to work like a language, their operations and everything like that works in that logic:
+
+    5j   - Move cursor 5 positions down.
+    d3w  - Delete three words.
+    c5w  - Change five words.
+
+    .   - Repeat the last operation you did, except the motion operation, it is something like a macro to the last change.
+
+    gf  - Treats the highlighted text or the one under the cursor as a path, and it will try to open the file at that path in your editor. It stands for go to file.
+
+    K   - Capital K will open the help file for the selected text, or text under your cursor, useful for programming.
+
+    Be careful, caps lock can affect your functionality, your operations will be treated as if you executed the operations with the capital letters.
+    To exit any mode, press ESC key, this will put you in the normal mode. A lot of people remap ESC to Caps Lock, this depends on your preference.
+    To get into command mode, type : while you are in the normal mode.
+
+
+
+Visual Mode:
+    Selected text can be deleted, changed, etc. You can manipulate it in any way you want.
+    After using an operation on the selected text, cursor will position back to the original position.
+
+    v   - Puts you in the visual mode, where it allows you to select the specific text with motion keys, etc.
+    V   - Puts you in the visual mode, where you can select specific lines of text, range of lines.
+    ^v  - Puts you in the visual mode, where you can select blocks of text, columns, useful for using multiple cursors as one.
+
+    gv  - Reselect previously selected text.
+
+
+
+Copy Pasting Text:
+    y <motion_key>   - Yank (Copy) text based on the motion key.
+    yy               - Yanks (Copy) whole line of text.
+    Y                - Yank (Copy) the rest of the line from the cursor.
+
+    p  - Will paste the text from vim's clipboard after the cursor. Same logic as with o.
+    P  - Will paste the text at the cursor from vim's clipboard. Same logic as with O.
+    
+    Prepend any yanking/pasting operation with the following, to do operations on specific register: "<char_register>
+    Register is just a storage, represented by a letter. Like a variable.
+
+    You can also copy/paste to/from sysetem clipbaoard, by using '*' or '+' as register.
+
+
+
+History:
+    u    - Undo one change. (It can undo the operation U below as well.)
+    U    - Undo everything on the current line.
+    ^r   - Undo undos. Basically redo.
+
+    :earlier <time_delta>  - Allows you to go back to the past, <n>s (n-seconds), <n>m (n-minutes), <n>h (n-hours)
+    :later <time_delta>    - Allows you to go back to the future, <n>s (n-seconds), <n>m (n-minutes), <n>h (n-hours)
+    :changes               - Allows you to see all the changes you have made to this specific file. Press q to exit.
+
+
+
+Search For Text:
+    /  - Search for the specific text in a file, from the cursor to the end of the file.
+    ?  - Search for the specific text in a file, from the cursor to the start of the file.
+    
+    n  - Repeat the last search command, from the current cursor position.
+    N  - Repeat the opposite of the last search command, from the current cursor position.
+
+    *  - Find all the instances of the current inner word your cursor is at, it's sensitive to punctuation. You can use n and N after this.
+
+    gn, gN  - Use the search command as any other motion key.
+
+    t <char>  - Move the cursor, before the first specific character, found to the right of the cursor.
+    f <char>  - Move the cursor, at the first specific character, found to the right of the cursor.
+    T, F  - They do the exactly the same thing as the previous two operations except to the left of the cursor.
+    ;     - Repeat t, f, T, F operations, for the current line.
+
+    ctrl + p  - Autocomplete word based on matching words in the backward direction (when in insert mode).
+    ctrl + n  - Autocomplete word based on matching words in the forward direction (when in insert mode).
+    
+
+
+Indenting, Swapping Case, Incrementing:
+    ~  - Swap the case of a letter, and move cursor to the right by one.
+
+    gu <motion_key>  - Uncapitalize the text based on the motion key.
+    guu              - Unpacitalize the text of the whole line.
+
+    gU <motion_key>  - Capitalize the text based on the motion key.
+    gUU              - Capitalize the text of the whole line.
+
+    g~ <motion_key>  - Swap the case of text based on the motion key.
+    g~~              - Swap the case of text of the whole line. 
+
+    ^a   - Increment the number under the cursor, or the closest one to it, from the right side.
+    g^a  - Increment selected / closest number to the cursor numbers sequentially, from the right side.
+
+    ^x   - Decrement the number under the cursor, or the closest one to it, from the right side.
+    g^x  - Decrement selected/closest number to the cursor numbers sequentially, from the right side.
+
+    >>   - Indent a line.
+    <<   - Unindent a line.
+
+
+
+Macros:
+    q <char>    - Start recording commands and operations for a macro, save it to the specific char register.
+    q           - After recording macro, press 'q' again, to stop recording it.
+    q <char> q  - Delete the macro that you have recorded.
+
+    @ <char>    - Execute the macro you have recorded.
+    @@          - Execute the last macro you have executed.
+
+
+
+Basic Commands:
+    :Tutor          - Launch the vim tutor.
+    :version        - Will tell you the information about your current vim client.
+    
+    :e    <path>    - Open a specific file to edit.
+    :edit <path>    - Open a specific file to edit.
+
+    :q              - Exit vim if you didn't make any changes.
+    :q!             - Exit vim and discard all the changes that you have made.
+
+    :w              - Write all the changes to the current open file.
+    :w <file_name>  - Write all the changes to the specific file.
+    :wq             - Save all the changes and exit vim.
+    :wa             - Write all (Tabs, and buffers, etc.), shorthand for :wall. 
+    If you have selected certain part of text, only that text will be saved.
+
+    :!<command>     - Execute external command from the shell. % in the command would represent the location of the current file. Press enter / q to exit.
+    :r <file_name>  - Read the content of a file, and place after the cursor.
+    :r !<command>   - Execute the external command and write its output after the cursor.
+
+    :messages       - View past command-line messages.
+
+
+
+Text Manipulation Commands:
+    :sort                   - Will sort the selected text, or the whole file. Depends on whether you have selected text or not. 
+    :retab                  - Change all tabs to the new set settings, for the current file, or the selected text.
+    :norm <vim_operations>  - Will perform the specific actions on the selected text or the current line if nothing is selected.
+
+    :s/<old>/<new>/      - Substitute the single occurance of <old> with <new>.
+    :s/<old>/<new>/g     - Substitute all the occurances of <old> with <new> on the current line. 
+    :s/<old>/<new>/c     - Will ask you to confirm the substitution of the single occurance of <old> with <new> on the current line.
+    :s/<old>/<new>/i     - Will substitute single occurance of <old> with <new>, while ignoring the case.
+    :s/<old>/<new>/gci   - Everything above combined. You don't have to combine everything from the above.
+
+    Using the commands above with :%s instead of :s will apply the command on the whole file.
+    :#,#s/<old>/<new>/  - # specify range of lines at which to substitute text. You can also just select text with visual mode V instead.
+
+    g&  - Will repeat your last substitution on the whole file.
+
+
+
+
+Tabs & Buffers:
+    :split          - split the current window horizontally, into a new tab, with the current file. '^ws' is the shortcut.
+    :split <path>   - split the current window horizontally, into a new tab, with the specific file.
+    
+    :vsplit         - split the current window vertically, into a new tab, with the current file. '^wv' is the shortcut.
+    :vsplit <path>  - split the current window vertically, into a new tab, with the specific file.
+    
+    move around split windows using 'ctrl + w' and 'h j k l' keys. or with 'ctrl + w + w' to move around in cycle.
+
+    :resize <rows>              - Resize the current horizontal split to have the specific number of rows.
+    :resize +<rows>             - Resize the current horizontal split, add the specific number of rows to it.
+    :resize -<rows>             - Resize the current horizontal split, subtract the specific number of rows from it.
+    You can do everything same for vertical split, just prepend vertical before resize, example :vertical resize <columns>
+    
+
+    Buffer is a place in memory in which the file is loaded.
+    Window is used to show a buffer that is in the memory which holds the file.
+    Tab contains multiple windows, it can be one or multiple, if multiple then those windows share the space, they split it horizontally and vertically.
+
+    To move around last two visited buffers use CTRL + ^. 
+    :bn    - Go to the next buffer.
+    :bp    - Go to the previous buffer.
+    :bd    - Close the current buffer.
+    :enew  - Create new empty buffer.
+
+    :tabnew         - Create a new tab.
+    :tabnew <path>  - Create a new tab, with a specific file.
+
+    :tabn           - Go to the next tab. Shortcut is 'gt'. 
+    :tabnext        - Same as tabn.
+
+    :tabp           - Go to the previous tab. Shortcut is 'gT'.
+    :tabprevious    - Same as :tabp.
+    
+    :tabfirst       - Go to the first tab.
+    :tablast        - Go to the last tab.
+ 
+
+    These commands also usually work without the additional ':'. Depends on the implementation.
+    ::Explore   - Open a file explorer, in a new buffer, you can navigate with hjkl or arrow keys, and enter key.
+    ::Sexplore  - Open a file explorer in horizontally split window. Acts as a new window.
+    ::Vexplore  - Open a file explorer in vertically split window. Acts as a new window.
+    ::Texplore  - Open a file explorer in new tab.
+
+    :terminal   - Will open a terminal in the current window.
+    You need to enter insert mode through i/I/a/A in it to use it. Write exit in it, and hit enter to exit it.
+
+    :help            - Will show you general help page for anything in vim, in a new tab.
+    :help <subject>  - Will shop you help for anything related to vim, in a new tab.
+
+
+
+Configuring Vim:
+    :set sw=n                    - Change shiftwidth to n spaces.
+    :set ts=n                    - Change tabstop to n spaces.
+    :set expandtab               - Expand tabs to spaces, basically use spaces instead of \t tab character.
+    :set autoindent              - Enable automatic indentation.
+
+    :set wrap                    - Set text wrapping.
+
+    :set ignorecase              - Ignore case for searching and substituting text.
+    :set smartcase               - Search becomes case sensitive if it contains at least one uppercase letter, otherwise it is not case sensitive, used with ic in combination.
+    :set hlsearch                - Highlight searched text.
+
+    :set termguicolors           - Use more than 256 limited terminal gui colors if the terminal client supports that.
+    :colorscheme <name>          - Set certain color scheme to your editor.
+    :set cursorline              - Will color the current line where your cursor is at, so that you can see it.
+    :set mouse=a                 - Will allow you to use the mouse cursor, to select text, scroll it, etc.
+
+    :set number                  - Show the number of each line.
+    :set relativenumber          - Show the relative number of each line from the current line.
+
+    :set backup                  - Allow file backup creation. Whenever you will save a file, backup will be created.
+    :set swapfile                - Will create temporary swap file, it stores changes created in the buffer.
+    :set undofile                - Save undofile for each edit operation, so that you have persistent history of changes.
+    :set encoding=UTF-8          - Change text encoding to support UTF-8.
+
+    :set clipboard=unmannedplus  - Share the system clipboard with vim's main clipboard register.
+    :set splitright              - Split vertical windows to the right of the current one.
+    :set splitbelow              - Split horizontal windows to the below of the current one.
+
+    Prepend "no" to undo options. For example :set nowrap
+    Prepend "inv" to invert options. For example :set invwrap
+
+
+    :map <key> <key/command>       - Remap key to another key, or to command. For visual mode.
+    :<mode>map <key> <key/commad>  - Same as above but for specific mode. Those modes are:
+    n  - normal mode
+    i  - insert mode
+    v  - visual mode
+    x  - visual block mode
+    t  - terminal mode
+    c  - command mode
+
+
+    To see more options, use :help options command.
+
+
+
+Quick Key Combinations:
+    viw       - Select inner word.
+
+    vt<char>  - Select text up to the <char>.
+    vf<char>  - Select text up to the <char>, with the <char>.
+
+    vi)       - Select text between brackets, (It can be any bracket, even a quote.)
+    %v%       - Select text between the closest brackets, with brackets.
+
+    v}        - Select block of code.
+    v{        - Select block of code.
+
+
+    ctrl + v + I  - Insert text in front of the selected column/block of text.
+    ctrl + v ^ I  - Insert text in front of the text line.
+    ctrl + v $ A  - Append the text at the end of the line.
+
+
+    <n>j zt       - Scroll text by n lines down.
+    <n>k zb       - Scroll text by n lines up.
+
+
+    :norm $x               - Delete one character at the end of the selected lines of text.
+    v<motion_key> r<char>  - Replace the selected text with certain character.
+    v<motion_key> c<text>  - Replace the selected text with certain text.
+    <n> i<text>            - Write a certain text n times. 
+
+
+    xp        - Move a character one position to the right.
+    ddp       - Move the current line down.
+    ddkP      - Move the current line above.
+
+    %d%       - Delete the text between the brackets, including the brackets.
+    dt<char>  - Delete all the text up to the <char> without the <char>.
+    df<char>  - Delete all the text up to the <char> with the <char>.
+
+    di)      - Delete the inner text between brackets (It can be any bracket, even a quote.)
+
+    d$       - Delete all the text in line after the cursor.
+    d^       - Delete all the text in line before the cursor.
+    d0       - Delete everything before the cursor.
+
+    diw      - Delete inner word.
+    de       - Delete until the end of the current word.
+
+    dgn      - Delete the text based on the last search command. Useful with '.' operation to repeat it.
+    dgN      - Delete the text based on the opposite of the last search command. 
+
+    d{       - Delete a block of code.
+
+    dG       - Delete all text of the file from the current cursor position down.
+    ggdG     - Delete the whole file.
+
+    ciw<char><char> ESC P      - Surround the inner word with certain character.
+    ciw<bracket/quote> ESC p   - Surround the inner word in any bracket/quote.
+
+    The opeartions above can be done with both d (delete) and c (change), use them how you want.
+
+
+    :!python %   - Execute the current file as a python script.
+
