@@ -45,7 +45,7 @@ bufferline.setup {
     -- Colorings.
     highlights = {
         fill = {
-            guifg = { attribute = "fg", highlight = "#ff000" },
+            guifg = { attribute = "fg", highlight = "TabLine" },
             guibg = { attribute = "bg", highlight = "TabLine" }
         },
 
