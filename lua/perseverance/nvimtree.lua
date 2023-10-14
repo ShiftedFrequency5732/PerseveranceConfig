@@ -41,7 +41,6 @@ nvim_tree.setup {
     view = {
         -- UI settings for the view of nvim-tree.
         width = 30,
-        hide_root_folder = false,
         side = "left",
         number = true,
         relativenumber = true

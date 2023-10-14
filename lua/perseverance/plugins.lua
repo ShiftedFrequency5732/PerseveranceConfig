@@ -22,8 +22,11 @@ local plugins = {
     "folke/lazy.nvim",
 
     -- Colorschemes.
+    "rebelot/kanagawa.nvim",
+    "navarasu/onedark.nvim",
     "folke/tokyonight.nvim",
     "lunarvim/darkplus.nvim",
+    "nyoom-engineering/oxocarbon.nvim",
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
     -- cmp plugins for auto-completion.
@@ -56,7 +59,7 @@ local plugins = {
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 
     -- For highlighting indentations.
-    { "lukas-reineke/indent-blankline.nvim" },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
     -- For automatically closing brackets.
     { 'windwp/nvim-autopairs', event = "InsertEnter", opts = {} },
